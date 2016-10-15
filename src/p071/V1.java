@@ -26,7 +26,7 @@ public class V1 {
 		while (!stack.empty()) {
 			sb.insert(0, stack.pop()).insert(0, "/");
 		}
-		return sb.toString();
+		return sb.length()==0?"/":sb.toString();
 	}
 
 	public static void main(String[] args) {
