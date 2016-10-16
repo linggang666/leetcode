@@ -1,5 +1,6 @@
 package p229;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class V1 {
@@ -26,6 +27,17 @@ public class V1 {
 			}
 		}
 		
-		return null;
+		c1=0;
+		c2=0;
+		for (int i = 0; i < nums.length; i++) {
+			if(nums[i] == n1) c1++;
+			if(nums[i] == n2) c2++;
+		}
+		
+		List<Integer> res = new ArrayList<Integer>();
+		if(c1*3>nums.length) res.add(n1);
+		if(c2*3>nums.length && n1!=n2) res.add(n2);
+		
+		return res;
     }
 }
