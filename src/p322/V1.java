@@ -2,9 +2,6 @@ package p322;
 
 import java.util.Arrays;
 
-import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
-import sun.tools.jar.resources.jar;
-
 public class V1 {
 
 	public int coinChange(int[] coins, int amount) {
