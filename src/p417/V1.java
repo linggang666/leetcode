@@ -5,6 +5,11 @@ import java.util.List;
 
 public class V1 {
 	
+	/**
+	 * dfs
+	 * @param matrix
+	 * @return
+	 */
 	public List<int[]> pacificAtlantic(int[][] matrix) {
 		List<int[]> res = new ArrayList<int[]>();
 		if(matrix.length<1 || matrix[0].length<1) 
