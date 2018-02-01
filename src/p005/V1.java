@@ -1,79 +1,55 @@
 package p005;
 
-
 public class V1 {
 	
 	/**
-	 * 超时
+	 * manacher算法
 	 * @param s
 	 * @return
 	 */
 	public String longestPalindrome(String s) {
-		String result = "";
-		StringBuffer resultSb = new StringBuffer();
 		
-		StringBuffer sb = new StringBuffer(s);
-		int lenSb = sb.length();
-		while(lenSb >= 0){
-			sb.insert(lenSb, '\0'+"");
-			lenSb--;
-		}
+		int len1 = s.length()*2+1;
+		char[] arr = new char[len1];
+		int[] lenArr = new int[len1];
 		
-		//System.out.println(sb.toString());
-		s = sb.toString();
+		arr[0] = '*';
+		lenArr[0] = 1;
+		for (int i = 0; i < s.length(); i++) {
+            arr[2*i+1] = s.charAt(i);
+            arr[2*i+2] = '*';
+        }
 		
-		int bi = 1;
-		int len = s.length();
-		for (int i = 0; i < len; i++) {
-			char c = s.charAt(i);
-			resultSb = new StringBuffer(c+"");
-			
-			while(i-bi>=0 && i+bi<len && s.charAt(i-bi)==s.charAt(i+bi) ){
-				resultSb.insert(0, s.charAt(i-bi)).append(s.charAt(i-bi));
-				bi++;
-			}
-			if(result.length() < resultSb.length()){
-				result = resultSb.toString();
-			}
-			bi = 1;
-		}
+		int maxRight=0, midPos=0, maxPos=0;
+		for (int i = 1; i < len1; i++) {
+            if(i<midPos) {
+                lenArr[i] = Math.min(lenArr[2*midPos-i], maxRight-i+1);
+            }else {
+                lenArr[i] = 1;
+            }
+            
+            while(i>=lenArr[i] && i+lenArr[i]<len1 && arr[i-lenArr[i]]==arr[i+lenArr[i]]) {
+                lenArr[i]++;
+                if(i+lenArr[i]<len1 && arr[i+lenArr[i]]>maxRight) {
+                    maxRight = arr[i+lenArr[i]];
+                    midPos = i;
+                }
+            }
+            if(lenArr[i]>lenArr[maxPos]) maxPos = i;
+        }
 		
-		resultSb = new StringBuffer(result);
-		lenSb = resultSb.length() - 1;
-		while(lenSb >= 0){
-			if(resultSb.charAt(lenSb) == '\0'){
-				resultSb.deleteCharAt(lenSb);
-			}
-			lenSb--;
-		}
+		StringBuilder res = new StringBuilder();
+		for (int i = maxPos-lenArr[maxPos]+1; i < maxPos+lenArr[maxPos]; i++) {
+            if(arr[i]!='*') {
+                res.append(arr[i]);
+            }
+        }
 		
-        return resultSb.toString();
+        return res.toString();
     }
 	
-	
-	
-//	public String longestPalindrome(String s) {
-//		List<Character> stack = new ArrayList<Character>();
-//		String result = "";
-//		StringBuffer resultSb = new StringBuffer();
-//		int bi = 2;
-//		
-//		int len = s.length();
-//		for (int i = 0; i < len; i++) {
-//			char c = s.charAt(i);
-//			
-//			if (stack.size() - bi >=0 && stack.get(stack.size()-bi) == c){
-//				bi = bi + 2;
-//				resultSb.insert(0, c).append(c);
-//			}else{
-//				bi = 2;
-//				resultSb = new StringBuffer(c+"");
-//			}
-//			if(resultSb.length()>result.length()){
-//				result = resultSb.toString();
-//			}
-//			stack.add(c);
-//		}
-//        return result;
-//    }
+	public static void main(String[] args) {
+        V1 v = new V1();
+        System.out.println(v.longestPalindrome("sdffxfffddssdffddffds"));
+    }
 }
